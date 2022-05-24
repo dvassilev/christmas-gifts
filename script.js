@@ -6,6 +6,7 @@ let message = document.getElementById('message');
 let label = document.getElementById('label');
 let snow = document.getElementById('snow');
 
+//Set the button
 button.addEventListener('click', function () {
     let currentName = nameElement.value;
 
@@ -16,6 +17,7 @@ button.addEventListener('click', function () {
     }
 });
 
+//Get random person from Firebase
 async function giveRandomPerson() {
     return result = await fetch(url)
         .then(res => res.json())
@@ -30,6 +32,7 @@ async function giveRandomPerson() {
         })
 }
 
+//Check if the person is avaliable
 async function isNameAvaliable(currentName) {
     giveRandomPerson()
         .then(result => {
@@ -39,14 +42,13 @@ async function isNameAvaliable(currentName) {
 
             if (taken == 'false' && currentName != name) {
                 loadName(name);
-                deletePerson(name);
-                // addPersonToTaken(name);
+                setAsTaken(name);
             } else {
                 console.log(1);
                 isNameAvaliable(currentName);
             }
 
-            // return;
+            return;
         })
         .catch(err => alert(err));
 }
@@ -55,6 +57,7 @@ function getRandomInt(max) {
     return Math.floor(Math.random() * Math.floor(max));
 }
 
+//Show the drawed name on the screen
 function loadName(name) {
     nameElement.style.display = 'none';
     button.style.display = 'none';
@@ -64,7 +67,8 @@ function loadName(name) {
     label.style.display = 'none'
 }
 
-function deletePerson(name) {
+//Set the person as taken in Firebase
+function settAsTaken(name) {
     console.log(name);
 
     fetch('https://christmas-gifts-94eb6.firebaseio.com/People/-MMtcVDICAgsALXFOzwd/.json', {
